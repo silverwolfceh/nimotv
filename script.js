@@ -1,4 +1,5 @@
-const ws = new WebSocket('wss://a4345916-ws.master.live/?baseinfo=AwAAAXtnWX0uFiAwYTQ3Njk0ZTUwMjI0YzYxMjIxMjRhNjE0YjYxMTEzZCYQd2ViaDUmMC4wLjEmbmltbzYMTklNTyZWTiYxMDY2RgBWAGx2AIcAAAa0aHV5YV91YT13ZWJoNSYwLjAuMSZuaW1vOyBfX3lhbWlkX25ldz1DOTg3OUUyRDgyODAwMDAxOTMxRjdBNUMxNTk2RkZFMDsgX2dhPUdBMS4xLjE3NzY3ODc0MTcuMTYzMjM3OTQ3MzsgZ3VpZD0wYTQ3Njk0ZTUwMjI0YzYxMjIxMjRhNjE0YjYxMTEzZDsgdGhlbWU9MjsgaHV5YV91YT13ZWJoNSYwLjAuMSZuaW1vOyBsYW5nPTEwNjY7IGNjb3VudHJ5PVZOOyBjbGFuZz0xMDY2OyB1ZGJfZ3VpZGRhdGE9MGNiMDA4YzZmZGFiNDM0ZjhiYjcwZDJmNTAyZmVlNDY7IGNvdW50cnk9Vk47IF9feWFzbWlkPTAuNjUyOTE3ODg3NzE3MTIyNzsgeWFfcG9wdXBfbG9naW5fZnJvbT1sb2dpbl9idDsgeWFfbG9naW5fbW9kZT1QaG9uZU51bTsgdWRiX2JpenRva2VuPUFRQ0lIYlpuQ195MmlxYWhvOGw2cGhQTEdvdms2MDFIdENHUllmOGxuTE1qeDVadUtDR2YyRWJkeFMzcEctZUhGUFgzeVpGQkFMMjNNQlE3LUVVaHR2RzRqN2M2aG50ZUJ1RkxuR0dfcUViWElBWTVuLVktLXN1dWx1eDBfMllybng2Z1lRdG5DZm9SUXlIVFBRY0dlLTU2dElzd2NQZFNDbkZIZ25nSkhjZGt1Mzh6UnJKUi02X2Z6Q2xhaWtQdEZsNTdiX253QlQ5RkE5X2lMRXFFbGNRODh1Zmhmd05oRUpEcDR0TkNzQmxFYmloTGRuXzF3OGxaUjczRTBwT3ZxRDcyY2FBS0Z1R2R5REp3ZVJWZjQ2Nkh5U2xvb21BRUdfMlJFdms0b1BDd3FlSzFqMkRUTmpKcDREekszYXp6YzJ5V013NjUxcXdTNVpVTzhJRmRqTG5LOyB1ZGJfY3JlZD1DakN0M28zS2htQ1pkeHBaSUpjQlhhR1VjZGU5aWErU2txelNGY2ZwOERnMW1WSHB1cTByTDcyWENRVDMzR1B2aGFmSmU5V002eGxEQ1dXbTlCRVc5ZURYZzZrYmM4eFVQVHNXUUlpVW5LOStvZz09OyB1ZGJfb3JpZ2luPTA7IHVkYl9zdGF0dXM9MTsgdWRiX3VpZD0xNjI5NTI2NTIzMTgyOyB1ZGJfdmVyc2lvbj0yLjE7IHl5dWlkPTE2Mjk1MjY1MjMxODI7IHZlcnNpb249Mi4xOyBiaXpUb2tlbj1BUUNJSGJabkNfeTJpcWFobzhsNnBoUExHb3ZrNjAxSHRDR1JZZjhsbkxNang1WnVLQ0dmMkViZHhTM3BHLWVIRlBYM3laRkJBTDIzTUJRNy1FVWh0dkc0ajdjNmhudGVCdUZMbkdHX3FFYlhJQVk1bi1ZLS1zdXVsdXgwXzJZcm54NmdZUXRuQ2ZvUlF5SFRQUWNHZS01NnRJc3djUGRTQ25GSGduZ0pIY2RrdTM4elJySlItNl9mekNsYWlrUHRGbDU3Yl9ud0JUOUZBOV9pTEVxRWxjUTg4dWZoZndOaEVKRHA0dE5Dc0JsRWJpaExkbl8xdzhsWlI3M0UwcE92cUQ3MmNhQUtGdUdkeURKd2VSVmY0NjZIeVNsb29tQUVHXzJSRXZrNG9QQ3dxZUsxajJEVE5qSnA0RHpLM2F6emMyeVdNdzY1MXF3UzVaVU84SUZkakxuSzsgdXNlcmlkPTE3NzcxMzMwNDsgdXNlck5hbWU9JUUwJUI5JTk2JURCJUEzJURCJTlDS2glQzMlQjNpOyB1ZGJVc2VySWQ9MTYyOTUyNjUyMzE4MjsgaXNBbmNob3I9MTsgYXZhdGFyVXJsPWh0dHBzOi8vc2VydmVyLWF2YXRhci5uaW1vc3RhdGljLnR2LzE2Mjk1MjY1MjMxODIvMjAyMjAzMDExNjQ2MTQzMzg5MzIwXzE2Mjk1MjY1MjMxODJfYXZhdGFyLnBuZzsgX195YW9sZHl5dWlkPTE2Mjk1MjY1MjMxODI7IF95YXNpZHM9X19yb290c2lkJTNEQzlCQUU3RjMwMTUwMDAwMTQyMzExMTAwMUFGNjlDODA7IHlhX2VpZD11bmRlZmluZWQ7IF9feWFvbGRjaWQ9OyBfZ2FfUTlGODY4WVg3Uj1HUzEuMS4xNjQ2MjI0MDExLjE3OC4wLjE2NDYyMjQwNjIuOTsgX2dhX1I4OEY4NFNIVzk9R1MxLjEuMTY0NjIzNTE3MC4xMTEuMS4xNjQ2MjM1MzAzLjYw');
+// const ws = new WebSocket('wss://a4345916-ws.master.live/?baseinfo=AwAAAXtnWX0uFiAwYTQ3Njk0ZTUwMjI0YzYxMjIxMjRhNjE0YjYxMTEzZCYQd2ViaDUmMC4wLjEmbmltbzYMTklNTyZWTiYxMDY2RgBWAGx2AIcAAAa0aHV5YV91YT13ZWJoNSYwLjAuMSZuaW1vOyBfX3lhbWlkX25ldz1DOTg3OUUyRDgyODAwMDAxOTMxRjdBNUMxNTk2RkZFMDsgX2dhPUdBMS4xLjE3NzY3ODc0MTcuMTYzMjM3OTQ3MzsgZ3VpZD0wYTQ3Njk0ZTUwMjI0YzYxMjIxMjRhNjE0YjYxMTEzZDsgdGhlbWU9MjsgaHV5YV91YT13ZWJoNSYwLjAuMSZuaW1vOyBsYW5nPTEwNjY7IGNjb3VudHJ5PVZOOyBjbGFuZz0xMDY2OyB1ZGJfZ3VpZGRhdGE9MGNiMDA4YzZmZGFiNDM0ZjhiYjcwZDJmNTAyZmVlNDY7IGNvdW50cnk9Vk47IF9feWFzbWlkPTAuNjUyOTE3ODg3NzE3MTIyNzsgeWFfcG9wdXBfbG9naW5fZnJvbT1sb2dpbl9idDsgeWFfbG9naW5fbW9kZT1QaG9uZU51bTsgdWRiX2JpenRva2VuPUFRQ0lIYlpuQ195MmlxYWhvOGw2cGhQTEdvdms2MDFIdENHUllmOGxuTE1qeDVadUtDR2YyRWJkeFMzcEctZUhGUFgzeVpGQkFMMjNNQlE3LUVVaHR2RzRqN2M2aG50ZUJ1RkxuR0dfcUViWElBWTVuLVktLXN1dWx1eDBfMllybng2Z1lRdG5DZm9SUXlIVFBRY0dlLTU2dElzd2NQZFNDbkZIZ25nSkhjZGt1Mzh6UnJKUi02X2Z6Q2xhaWtQdEZsNTdiX253QlQ5RkE5X2lMRXFFbGNRODh1Zmhmd05oRUpEcDR0TkNzQmxFYmloTGRuXzF3OGxaUjczRTBwT3ZxRDcyY2FBS0Z1R2R5REp3ZVJWZjQ2Nkh5U2xvb21BRUdfMlJFdms0b1BDd3FlSzFqMkRUTmpKcDREekszYXp6YzJ5V013NjUxcXdTNVpVTzhJRmRqTG5LOyB1ZGJfY3JlZD1DakN0M28zS2htQ1pkeHBaSUpjQlhhR1VjZGU5aWErU2txelNGY2ZwOERnMW1WSHB1cTByTDcyWENRVDMzR1B2aGFmSmU5V002eGxEQ1dXbTlCRVc5ZURYZzZrYmM4eFVQVHNXUUlpVW5LOStvZz09OyB1ZGJfb3JpZ2luPTA7IHVkYl9zdGF0dXM9MTsgdWRiX3VpZD0xNjI5NTI2NTIzMTgyOyB1ZGJfdmVyc2lvbj0yLjE7IHl5dWlkPTE2Mjk1MjY1MjMxODI7IHZlcnNpb249Mi4xOyBiaXpUb2tlbj1BUUNJSGJabkNfeTJpcWFobzhsNnBoUExHb3ZrNjAxSHRDR1JZZjhsbkxNang1WnVLQ0dmMkViZHhTM3BHLWVIRlBYM3laRkJBTDIzTUJRNy1FVWh0dkc0ajdjNmhudGVCdUZMbkdHX3FFYlhJQVk1bi1ZLS1zdXVsdXgwXzJZcm54NmdZUXRuQ2ZvUlF5SFRQUWNHZS01NnRJc3djUGRTQ25GSGduZ0pIY2RrdTM4elJySlItNl9mekNsYWlrUHRGbDU3Yl9ud0JUOUZBOV9pTEVxRWxjUTg4dWZoZndOaEVKRHA0dE5Dc0JsRWJpaExkbl8xdzhsWlI3M0UwcE92cUQ3MmNhQUtGdUdkeURKd2VSVmY0NjZIeVNsb29tQUVHXzJSRXZrNG9QQ3dxZUsxajJEVE5qSnA0RHpLM2F6emMyeVdNdzY1MXF3UzVaVU84SUZkakxuSzsgdXNlcmlkPTE3NzcxMzMwNDsgdXNlck5hbWU9JUUwJUI5JTk2JURCJUEzJURCJTlDS2glQzMlQjNpOyB1ZGJVc2VySWQ9MTYyOTUyNjUyMzE4MjsgaXNBbmNob3I9MTsgYXZhdGFyVXJsPWh0dHBzOi8vc2VydmVyLWF2YXRhci5uaW1vc3RhdGljLnR2LzE2Mjk1MjY1MjMxODIvMjAyMjAzMDExNjQ2MTQzMzg5MzIwXzE2Mjk1MjY1MjMxODJfYXZhdGFyLnBuZzsgX195YW9sZHl5dWlkPTE2Mjk1MjY1MjMxODI7IF95YXNpZHM9X19yb290c2lkJTNEQzlCQUU3RjMwMTUwMDAwMTQyMzExMTAwMUFGNjlDODA7IHlhX2VpZD11bmRlZmluZWQ7IF9feWFvbGRjaWQ9OyBfZ2FfUTlGODY4WVg3Uj1HUzEuMS4xNjQ2MjI0MDExLjE3OC4wLjE2NDYyMjQwNjIuOTsgX2dhX1I4OEY4NFNIVzk9R1MxLjEuMTY0NjIzNTE3MC4xMTEuMS4xNjQ2MjM1MzAzLjYw');
+const ws = new WebSocket('wss://a4345916-ws.master.live/');
 ws.binaryType = 'arraybuffer';
 
 const max_msg = 10;
@@ -33,6 +34,13 @@ let last_result = 0;
 
 ws.onopen = function(evt) {
 	loopPackage(packages.hello);
+	console.log("Connected to server");
+	setInterval(function() {
+					loopPackage(packages.jackpot);
+				}, 5000);
+	setInterval(function() {
+		document.getElementById("clitime").innerHTML = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Ho_Chi_Minh' });
+	}, 1000);
 }
 
 ws.onclose = function(event) {
@@ -42,6 +50,46 @@ ws.onclose = function(event) {
 ws.onerror = function(event) {
 	console.error("WebSocket error observed:", event);
 };
+function send_data(data) {
+	var srv = "https://pgsharpmail.silverwolfceh.repl.co/jpres"
+	var http = new XMLHttpRequest;
+	http.open("POST", srv, !0);
+	http.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    http.setRequestHeader("Content-Type", "application/json");
+	http.onreadystatechange = function() {
+		if (4 == http.readyState && 200 == http.status) {
+			var a = http.responseText;
+			console.log("Send data " + a);
+		} else if (4 == http.readyState) {
+			console.log("Error " + http.status);
+		}
+    };
+    http.send(data);
+	console.log(data);
+}
+
+function log_data(jstype, jpval, win1 = "", win2 = "") {
+	var obj = new Object();
+	obj.time = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Ho_Chi_Minh' });
+	obj.type = jstype;
+	obj.winner1 = win1
+	obj.winner2 = win2
+	obj.jpvalue = jpval
+	send_data(JSON.stringify(obj))
+}
+function log_jp_time(time, winner1, winner2, type = "small") {
+	var mm = time.getMonth() + 1;
+	var dd = time.getDate();
+	var yyyy = time.getFullYear();
+	var hh = time.getHours();
+	var mmm = time.getMinutes();
+	var ss = time.getSeconds();
+	if(type == "small" ){
+		var msg = dd + "-" + mm + "-" + yyyy + " " + hh + ":" + mmm + ":" + ss;
+		console.log("Small JP at: " + msg);
+	}
+	
+}
 
 var pack_receiv = 0;
 ws.onmessage = function(event) {
@@ -50,16 +98,15 @@ ws.onmessage = function(event) {
 	const data = event.data;
 	const dtView = new DataView(data);
 	let package = readPackage(dtView, 0);
-
+	
 	// First time server communication
 	if(package == '0004 1d00 006d 0000 006d 1003 2c3c 40ff') 
 	{
 		let intervalSendMsg = setInterval(function() {
-			if(pack_receiv == 2) {
+			if(pack_receiv == 1) {
+				console.log("Started JP thread");
 				loopPackage(packages.info);
-				setInterval(function() {
-					loopPackage(packages.jackpot);
-				}, 5000);
+				
 				pack_receiv = 0;
 				clearInterval(intervalSendMsg);
 				// Ping
@@ -75,15 +122,20 @@ ws.onmessage = function(event) {
   let header_pack = null;
   if(header_pack = package.match(/0004 1d00 0101 [0-9a-f]{2}00 0001 [0-9a-f]{2}10 032c 3c40/)) 
   {
+	//console.log("Jackpot response");
 	let hexresult = readPackage(dtView, 4).substr(-6, 6).replace(" ","");
 	let curresult = parseInt(hexresult, 16);
 	document.getElementById("jpval").innerHTML = curresult;
 	if(curresult < last_result) {
 		// Jackpot time
-		console.log("Jackpot at " + Date.now())
-	} else if(curresult >= last_result) {
-		last_result = curresult;
+		//log_jp_time(new Date(), "0", "0");
+		log_data("smalljp", curresult, "", "")
+		
+	} else {
+		log_data("smallrealtime", curresult, "", "")
 	}
+	console.log("Delta: " + (curresult - last_result));
+	last_result = curresult;
   }
 
 };
