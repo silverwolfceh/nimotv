@@ -5,6 +5,7 @@ from functools import reduce
 import struct
 from threading import Thread
 import time
+import datetime
 
 packages = {
 	"hello" : [
@@ -26,10 +27,11 @@ packages = {
 	]
 }
 
-TYPE_COM_START = "00041d00006d0000006d10032c3c40ff"
+TYPE_COM_START = r'00041d00006\w0000006\w10032c3c40ff'
 TYPE_JACK_RESP = r'00041d000101\w\w000001\w\w10032c3c40'
 TYPE_UNKN_DATA = 'UNKNOWN OR DONT CARE'
 WS_CONN = None
+LAST_JP_VAL = 0
 
 class DataView:
 	def __init__(self, array, bytes_per_element=1):
@@ -125,10 +127,11 @@ class NimoCli(WebSocketClient):
 		print("Closed down", code, reason)
 
 	def header_parser(self, hdrrow):
-		if hdrrow == TYPE_COM_START:
+		#print(hdrrow)
+		if re.search(TYPE_COM_START, hdrrow):
 			return TYPE_COM_START
 		elif re.search(TYPE_JACK_RESP, hdrrow):
-			print(hdrrow)
+			
 			return TYPE_JACK_RESP
 		else:
 			return TYPE_UNKN_DATA
@@ -137,15 +140,24 @@ class NimoCli(WebSocketClient):
 		dv = DataView(m.data)
 		first_row = dv.get_row(0)
 		pck_type = self.header_parser(first_row)
-
+		#00041d00006d0000006d10032c3c40ff
+		#00041d00006c0000006c10032c3c40ff
 		if pck_type == TYPE_COM_START:
+			print("Communication started. Send request open")
 			send_package( packages["info"])
 			Thread(target=send_heatbeat).start()
 			Thread(target=send_jackpot).start()
 		elif pck_type == TYPE_JACK_RESP:
+			global LAST_JP_VAL
 			data_row = dv.get_row(4)
 			jackval = int(data_row[-5:], 16)
-			print("Current Jackpot val: ", jackval)
+			if jackval < LAST_JP_VAL:
+				jptime = time.time()
+				jptimefull = datetime.datetime.now("Asia/Ho_Chi_Minh")
+				print("Jackpot at %s with val %d" % (jptimefull, jackval))
+			else:
+				print("Current Jackpot val: ", jackval)
+			LAST_JP_VAL = jackval
 		else:
 			pass
 
