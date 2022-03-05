@@ -39,7 +39,7 @@ def handle_authentication(json):
     print('received json: ' + str(json))
 
 def run_flask():
-	sio.run(app)
+	sio.run(app, host = '0.0.0.0', port=8888)
 	# app.run(host='0.0.0.0', debug=False)
 
 if __name__ == '__main__':
