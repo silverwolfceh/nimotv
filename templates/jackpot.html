@@ -38,7 +38,7 @@
     		}
 
 			function load_data_1st_time() {
-				$.get("http://localhost:5000/jpval", function(data, status){
+				$.get("http://hackermode.xyz:8888/jpval", function(data, status){
     				const obj = JSON.parse(data);
     				for(var i = 0; i < obj.data.length; i++) {
     					create_row(obj.data[i]);
