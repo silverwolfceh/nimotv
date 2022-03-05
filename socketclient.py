@@ -6,6 +6,10 @@ import struct
 from threading import Thread
 import time
 from datetime import datetime,timezone
+from sqldb import *
+from pytz import timezone
+import pytz
+import json
 
 packages = {
 	"hello" : [
@@ -32,6 +36,7 @@ TYPE_JACK_RESP = r'00041d000101\w\w000001\w\w10032c3c40'
 TYPE_UNKN_DATA = 'UNKNOWN OR DONT CARE'
 WS_CONN = None
 LAST_JP_VAL = 0
+SQL_DB_INS = None
 
 class DataView:
 	def __init__(self, array, bytes_per_element=1):
@@ -100,7 +105,7 @@ def send_heatbeat():
 
 def send_jackpot():
 	while True:
-		time.sleep(3)
+		time.sleep(1)
 		send_package(packages["jackpot"])
 		
 
@@ -116,6 +121,11 @@ class NimoCli(WebSocketClient):
 		for p in package:
 			p += '=' * (-len(p) % 4)
 			self.send(b64.b64decode(p), binary = True)
+
+
+	def set_callback(self, fcallback):
+		self.fcallback = fcallback
+
 
 	def opened(self):
 		global WS_CONN
@@ -153,18 +163,42 @@ class NimoCli(WebSocketClient):
 			jackval = int(data_row[-5:], 16)
 			if jackval < LAST_JP_VAL:
 				jptime = time.time()
-				jptimefull = datetime.now(timezone.ICT)
+				jptimefull = datetime.now(timezone("Asia/Ho_Chi_Minh"))
 				print("Jackpot at %s with val %d" % (jptimefull, jackval))
+				data = {
+					"jptime" : str(jptime),
+					"jptimeful" : str(jptimefull),
+					"jpval" : jackval,
+					"win1" : "",
+					"win2" : ""
+				}
+
+				self.fcallback("smalljp", json.dumps(data))
+				db = sqldb()
+				db.save_record(data)
+				db.close()
+
 			else:
-				print("Current Jackpot val: ", jackval)
-				print("%s " % datetime.now(timezone.ICT))
+				jptime = time.time()
+				jptimefull = datetime.now(timezone("Asia/Ho_Chi_Minh"))
+				data = {
+					"jptime" : str(jptime),
+					"jptimeful" : str(jptimefull),
+					"jpval" : jackval,
+					"win1" : "",
+					"win2" : ""
+				}
+				if LAST_JP_VAL != jackval:
+					self.fcallback("smallrt", json.dumps(data))
+					print("Current Jackpot val: %d. Delta: %d" % (jackval, jackval - LAST_JP_VAL))
 			LAST_JP_VAL = jackval
 		else:
 			pass
 
-def run_socket_client():
+def run_socket_client(fcallback):
 	try:
 		ws = NimoCli('wss://a4345916-ws.master.live/', protocols=['http-only', 'chat'])
+		ws.set_callback(fcallback)
 		ws.connect()
 		ws.run_forever()
 	except KeyboardInterrupt:
