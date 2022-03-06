@@ -123,9 +123,11 @@ class NimoCli(WebSocketClient):
 			self.send(b64.b64decode(p), binary = True)
 
 
-	def set_callback(self, fcallback):
+	def set_datacallback(self, fcallback):
 		self.fcallback = fcallback
 
+	def set_closecallback(self, fcallback):
+		self.closecallback = fcallback
 
 	def opened(self):
 		global WS_CONN
@@ -134,7 +136,10 @@ class NimoCli(WebSocketClient):
 		self.loop_package(packages["hello"])
 
 	def closed(self, code, reason=None):
+		global WS_CONN
 		print("Closed down", code, reason)
+		WS_CONN = None
+		self.closecallback()
 
 	def header_parser(self, hdrrow):
 		#print(hdrrow)
@@ -162,7 +167,7 @@ class NimoCli(WebSocketClient):
 			data_row = dv.get_row(4)
 			jackval = int(data_row[-5:], 16)
 			if jackval < LAST_JP_VAL:
-				jptime = time.time()
+				jptime = int(time.time())
 				jptimefull = datetime.now(timezone("Asia/Ho_Chi_Minh"))
 				print("Jackpot at %s with val %d" % (jptimefull, jackval))
 				data = {
@@ -179,7 +184,7 @@ class NimoCli(WebSocketClient):
 				db.close()
 
 			else:
-				jptime = time.time()
+				jptime = int(time.time())
 				jptimefull = datetime.now(timezone("Asia/Ho_Chi_Minh"))
 				data = {
 					"jptime" : str(jptime),
@@ -195,10 +200,11 @@ class NimoCli(WebSocketClient):
 		else:
 			pass
 
-def run_socket_client(fcallback):
+def run_socket_client(fcallback_data, fcallback_close):
 	try:
 		ws = NimoCli('wss://a4345916-ws.master.live/', protocols=['http-only', 'chat'])
-		ws.set_callback(fcallback)
+		ws.set_datacallback(fcallback_data)
+		ws.set_closecallback(fcallback_close)
 		ws.connect()
 		ws.run_forever()
 	except KeyboardInterrupt:

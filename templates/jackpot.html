@@ -17,6 +17,11 @@
     			$("#smallrt").html(obj.jpval);
     		});
 
+    		socket.on('smalljp', function(data) {
+    			var obj = JSON.parse(data);
+    			create_row(data);
+    		});
+
     		function create_row(data) {
     			tr = document.createElement("tr");
 				jptimeful = document.createElement("td");
@@ -38,7 +43,7 @@
     		}
 
 			function load_data_1st_time() {
-				$.get("http://hackermode.xyz:8888/jpval", function(data, status){
+				$.get("/jpval", function(data, status){
     				const obj = JSON.parse(data);
     				for(var i = 0; i < obj.data.length; i++) {
     					create_row(obj.data[i]);

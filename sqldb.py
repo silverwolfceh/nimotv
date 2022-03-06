@@ -18,7 +18,7 @@ class sqldb:
 	
 
 	def save_record(self, data):
-		sql = "INSERT INTO smalljp(jptime, jptimeful, jpval, win1, win2) VALUES(%d, '%s', %d, '%s', '%s')" % (data["jptime"], data["jptimeful"], data["jpval"], data["win1"], data["win2"])
+		sql = "INSERT INTO smalljp(jptime, jptimeful, jpval, win1, win2) VALUES(%d, '%s', %d, '%s', '%s')" % (int(data["jptime"]), data["jptimeful"], int(data["jpval"]), data["win1"], data["win2"])
 		print(sql)
 		self.conn.execute(sql)
 		self.conn.commit()  

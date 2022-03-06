@@ -42,7 +42,10 @@ def run_flask():
 	sio.run(app, host = '0.0.0.0', port=8888)
 	# app.run(host='0.0.0.0', debug=False)
 
+def socketclient_close_cb():
+	Thread(target=run_socket_client, args=[send_result_to_client, socketclient_close_cb]).start()
+
 if __name__ == '__main__':
 	print(send_result_to_client)
-	Thread(target=run_socket_client, args=[send_result_to_client]).start()
+	Thread(target=run_socket_client, args=[send_result_to_client, socketclient_close_cb]).start()
 	run_flask()
