@@ -184,7 +184,8 @@ def process_bean_lottery(dv, pck_type, cb):
 				"BoxDes" : BOX_INPR[boxval],
 				"BoxTime" : str(boxtime),
 				"BoxCode" : data_row,
-				"SpecialBox" : boxspecial
+				"SpecialBox" : boxspecial,
+				"BoxRound" : CUR_ROUND
 			}
 			db = beanlotdb()
 			boxid = db.save_record(data)

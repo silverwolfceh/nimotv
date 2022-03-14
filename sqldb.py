@@ -62,7 +62,7 @@ class beanlotdb(sqldb):
 		return cursor
 
 	def save_record(self, data):
-		sql = "INSERT INTO %s(BoxVal, BoxDes, BoxTime, BoxCode, SpecialBox) VALUES(%d, '%s', '%s', '%s', %d)" % (self.tablname, int(data["BoxVal"]), data["BoxDes"], data["BoxTime"], data["BoxCode"], int(data["SpecialBox"]))
+		sql = "INSERT INTO %s(BoxVal, BoxDes, BoxTime, BoxCode, SpecialBox, BoxRound) VALUES(%d, '%s', '%s', '%s', %d, %d)" % (self.tablname, int(data["BoxVal"]), data["BoxDes"], data["BoxTime"], data["BoxCode"], int(data["SpecialBox"]), int(data["BoxRound"]))
 		self.conn.execute(sql)
 		self.conn.commit()  
 		cursor = self.get_record(1)
