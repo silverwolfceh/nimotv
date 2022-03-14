@@ -21,6 +21,12 @@
     		});
 			function create_row(data) {
 				tr = document.createElement("tr");
+				if(data.BoxVal == 7)
+					tr.style.backgroundColor = "aqua";
+				if(data.BoxVal == 8)
+					tr.style.backgroundColor = "coral";
+				if(data.BoxVal == 9)
+					tr.style.backgroundColor = "deepskyblue";
 				
 				td = document.createElement("td");
 				td.innerHTML = data.BoxRound;
