@@ -154,13 +154,14 @@ def process_bean_lottery(dv, pck_type, cb):
 		if int(data_row[0:4], 16) == 0x0C29:
 			numbox = int(data_row[7:8])
 			print("Numbox: ", numbox)
+			# 0c2900010c3900020a03000001746abd
 			if numbox == 4:
 				if data_row.find("0c2900040c000100020003") != -1:
 					boxval = 8
 				else:
 					boxval = 9
 			elif numbox == 1:
-				if data_row.find("0c2900010c3900030") != -1:
+				if data_row.find("0c2900010c39") != -1:
 					boxval = 0
 				else:
 					boxval = int(data_row[11:12], 16)
@@ -175,7 +176,7 @@ def process_bean_lottery(dv, pck_type, cb):
 			print("Box Val: ", BOX_INPR[boxval])
 			boxtime = datetime.now(timezone("Asia/Ho_Chi_Minh"))
 			boxspecial = 0
-			if boxval == 7 or boxval == 8:
+			if boxval == 8 or boxval == 9:
 				boxspecial = boxval
 			data = {
 				"ID"	 : "",
