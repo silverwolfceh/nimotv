@@ -13,9 +13,22 @@ sio = SocketIO(app)
 def form():
 	return render_template('jackpot.html')
 
+@app.route("/beanlot")
+def beanlotform():
+	return render_template('beanlot.html')
+
 @app.route("/jpval", methods=["GET"])
 def get_all_jp():
-	db = sqldb()
+	db = jpdb()
+	curs = db.get_record(1000)
+	records = curs.fetchall()
+	data = {}
+	data["data"] = records;
+	return json.dumps(data)
+
+@app.route("/beanlotall", methods=["GET"])
+def get_all_beanlot():
+	db = beanlotdb()
 	curs = db.get_record(1000)
 	records = curs.fetchall()
 	data = {}
@@ -46,6 +59,5 @@ def socketclient_close_cb():
 	Thread(target=run_socket_client, args=[send_result_to_client, socketclient_close_cb]).start()
 
 if __name__ == '__main__':
-	print(send_result_to_client)
-	Thread(target=run_socket_client, args=[send_result_to_client, socketclient_close_cb]).start()
+	Thread(target=run_socket_client, args=[send_result_to_client, socketclient_close_cb, send_result_to_client]).start()
 	run_flask()

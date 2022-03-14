@@ -60,5 +60,15 @@ class beanlotdb(sqldb):
 		return cursor
 
 	def save_record(self, data):
-		s
+		sql = "INSERT INTO %s(BoxVal, BoxDes, BoxTime, BoxCode, SpecialBox) VALUES(%d, '%s', '%s', '%s', %d)" % (self.tablname, int(data["boxval"]), data["boxdes"], data["boxtime"], data["boxcode"], int(data["boxspecial"]))
+		print(sql)
+		self.conn.execute(sql)
+		self.conn.commit()  
+
+	def get_boxcode_from_id(self, id):
+		sql = "SELECT * FROM %s WHERE ID = %d" % (self.tablname, id)
+		cursor = self.conn.execute(sql)
+		return cursor
+		
+
 

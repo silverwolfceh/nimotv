@@ -172,18 +172,14 @@ def process_bean_lottery(dv, pck_type):
 			print("DATA_BEAN_RESULT WRONG")
 		if boxval >= 0 and boxval < len(BOX_INPR):
 			print("Box Val: ", BOX_INPR[boxval])
-			
-
-
-def data_callback(dtype, data):
-	# Dummy function
-	pass
-
-def sk_closed():
-	# Dummy function
-	pass
 
 class NimoCli(WebSocketClient):
+	fcallback = {
+		"beansmalljp" : None,
+		"beansmallrt" : None,
+		"beanlot"	  : None,
+		"socketclose" : None
+	}
 	def decode_base64(self, data, altchars=b'+/'):
 		data = re.sub(rb'[^a-zA-Z0-9%s]+' % altchars, b'', data)  # normalize
 		missing_padding = len(data) % 4
@@ -196,12 +192,11 @@ class NimoCli(WebSocketClient):
 			p += '=' * (-len(p) % 4)
 			self.send(b64.b64decode(p), binary = True)
 
-
-	def set_datacallback(self, fcallback):
-		self.fcallback = fcallback
-
-	def set_closecallback(self, fcallback):
-		self.closecallback = fcallback
+	def set_callback(self, cb, cbtype):
+		if cbtype in self.fcallback:
+			self.fcallback[cbtype] = cb
+		else:
+			print("Sorry, Callback %s not supported" % cbtype)
 
 	def opened(self):
 		global WS_CONN
@@ -212,7 +207,8 @@ class NimoCli(WebSocketClient):
 	def closed(self, code, reason=None):
 		print("Closed down", code, reason)
 		reset_global()
-		self.closecallback()
+		if self.fcallback["socketclose"]:
+			self.fcallback["socketclose"]()
 
 	def package_parser(self, dv):
 		hdrrow = dv.get_row(0)
@@ -249,7 +245,7 @@ class NimoCli(WebSocketClient):
 			# if CUR_ROUND == -1:
 			# 	send_package(create_getGoldBeanLotteryCurrentRound())
 		elif pck_type == DATA_BEAN_ROUND or pck_type == DATA_BEAN_RESULT:
-			process_bean_lottery(dv, pck_type)
+			process_bean_lottery(dv, pck_type, self.fcallback["beanlot"])
 		elif pck_type == DATA_JACKPOT_INFO:
 			global LAST_JP_VAL
 			data_row = dv.get_row(4)
@@ -265,9 +261,9 @@ class NimoCli(WebSocketClient):
 					"win1" : "",
 					"win2" : ""
 				}
-
-				self.fcallback("smalljp", json.dumps(data))
-				db = sqldb()
+				if self.fcallback["bean_smalljp"]:
+					self.fcallback["bean_smalljp"]("smalljp", json.dumps(data))
+				db = jpdb()
 				db.save_record(data)
 				db.close()
 
@@ -282,21 +278,24 @@ class NimoCli(WebSocketClient):
 					"win2" : ""
 				}
 				if LAST_JP_VAL != jackval:
-					self.fcallback("smallrt", json.dumps(data))
+					if self.fcallback["bean_smallrt"]:
+						self.fcallback["bean_smallrt"]("smallrt", json.dumps(data))
 					print("Current Jackpot val: %d. Delta: %d" % (jackval, jackval - LAST_JP_VAL))
 			LAST_JP_VAL = jackval
 		else:
 			pass
 
-def run_socket_client(fcallback_data, fcallback_close):
+def run_socket_client(fcallback_data = None, fcallback_close = None, fcallback_beanlot = None):
 	try:
 		ws = NimoCli('wss://a4345916-ws.master.live/', protocols=['http-only', 'chat'])
-		ws.set_datacallback(fcallback_data)
-		ws.set_closecallback(fcallback_close)
+		ws.set_callback(fcallback_data, "beansmalljp")
+		ws.set_callback(fcallback_data, "beansmallrt")
+		ws.set_callback(fcallback_close, "socketclose")
+		ws.set_callback(fcallback_beanlot, "beanlot")
 		ws.connect()
 		ws.run_forever()
 	except KeyboardInterrupt:
 		ws.close()
 
 if __name__ == '__main__':
-	run_socket_client(data_callback, sk_closed)
+	run_socket_client()
