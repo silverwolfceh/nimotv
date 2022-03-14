@@ -6,7 +6,7 @@ import struct
 from threading import Thread
 import time
 from datetime import datetime,timezone
-from sqldb import *
+from sqldb import beanlotdb,jpdb
 from util import *
 from pytz import timezone
 import pytz
@@ -129,18 +129,18 @@ def send_beancurrentround():
 		time.sleep(1)
 	
 
-def process_bean_lottery(dv, pck_type):
+def process_bean_lottery(dv, pck_type, cb):
 	global CUR_ROUND
 	if pck_type == DATA_BEAN_ROUND:
 		data_row = str(dv.get_row(5))
 		roundnum = int(data_row[19:22], 16)
 		if CUR_ROUND == -1 and roundnum > 0:
 			CUR_ROUND = roundnum
-			time.sleep(3)
+			#time.sleep(3)
 			send_package(create_getGoldBeanLotteryResult(roundnum-1))
 			print("Round: ", roundnum)
 		elif roundnum > CUR_ROUND:
-			time.sleep(3)
+			#time.sleep(3)
 			send_package(create_getGoldBeanLotteryResult(roundnum-1))
 			CUR_ROUND = roundnum
 			print("Round: ", roundnum)
@@ -168,10 +168,30 @@ def process_bean_lottery(dv, pck_type):
 				print("Numbox: ", numbox)
 		elif int(data_row[0:4], 16) == 0x190c:
 			boxval = 0
+			print("Case not handled")
 		else:
 			print("DATA_BEAN_RESULT WRONG")
 		if boxval >= 0 and boxval < len(BOX_INPR):
 			print("Box Val: ", BOX_INPR[boxval])
+			boxtime = datetime.now(timezone("Asia/Ho_Chi_Minh"))
+			boxspecial = 0
+			if boxval == 7 or boxval == 8:
+				boxspecial = boxval
+			data = {
+				"ID"	 : "",
+				"BoxVal" : boxval,
+				"BoxDes" : BOX_INPR[boxval],
+				"BoxTime" : str(boxtime),
+				"BoxCode" : data_row,
+				"SpecialBox" : boxspecial
+			}
+			db = beanlotdb()
+			boxid = db.save_record(data)
+			db.close()
+			data["ID"] = boxid
+			if cb:
+				cb("beanlot", json.dumps(data))
+			
 
 class NimoCli(WebSocketClient):
 	fcallback = {

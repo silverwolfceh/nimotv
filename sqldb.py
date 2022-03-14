@@ -32,9 +32,10 @@ class sqldb:
 
 class jpdb(sqldb):
 	def __init__(self):
+		super().__init__()
 		self.dbname = "jp.db"
 		self.tablname = "smalljp"
-		super().__init__()
+		
 
 	def get_record(self, numrec = 100):
 		sql = "SELECT jptime, jptimeful, jpval, win1, win2 FROM smalljp ORDER BY ID desc limit %d" % numrec;
@@ -50,9 +51,10 @@ class jpdb(sqldb):
 
 class beanlotdb(sqldb):
 	def __init__(self):
+		super().__init__()
 		self.dbname = "jp.db"
 		self.tablname = "beanlot"
-		super().__init__()
+		
 
 	def get_record(self, numrec = 1000):
 		sql = "SELECT * FROM %s ORDER BY ID desc limit %d" % (self.tablname, numrec)
@@ -60,10 +62,11 @@ class beanlotdb(sqldb):
 		return cursor
 
 	def save_record(self, data):
-		sql = "INSERT INTO %s(BoxVal, BoxDes, BoxTime, BoxCode, SpecialBox) VALUES(%d, '%s', '%s', '%s', %d)" % (self.tablname, int(data["boxval"]), data["boxdes"], data["boxtime"], data["boxcode"], int(data["boxspecial"]))
-		print(sql)
+		sql = "INSERT INTO %s(BoxVal, BoxDes, BoxTime, BoxCode, SpecialBox) VALUES(%d, '%s', '%s', '%s', %d)" % (self.tablname, int(data["BoxVal"]), data["BoxDes"], data["BoxTime"], data["BoxCode"], int(data["SpecialBox"]))
 		self.conn.execute(sql)
 		self.conn.commit()  
+		cursor = self.get_record(1)
+		return cursor.fetchone()["ID"]
 
 	def get_boxcode_from_id(self, id):
 		sql = "SELECT * FROM %s WHERE ID = %d" % (self.tablname, id)
