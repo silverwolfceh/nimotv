@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         NimoBeanChest
+// @name         NimoCoinChest
 // @namespace    https://fb.com/wolf.xforce
 // @version      0.1
 // @description  Nimo bean chest auto bet
@@ -21,28 +21,27 @@ var placed_bet = false;
 var placed_bet_round = 0;
 var latest_round = -1;
 var bet_available = {
-		"box0" : 11,
-		"box1" : 12,
-		"box2" : 13,
-		"box3" : 14,
-		"box4" : 15,
-		"box5" : 16,
-		"box6" : 17,
-		"box7" : 18
+		"box0" : 13,
+		"box1" : 14,
+		"box2" : 15,
+		"box3" : 16,
+		"box4" : 17,
+		"box5" : 18,
+		"box6" : 19,
+		"box7" : 20
 };
 
 
 // 23: 500, 24: 1000, 25: 5000, 26: 10000
-// 20: 500, 21: 1000, 22: 5000, 23: 10000
 var box_order = {
-		"box0" : [23, 23, 23],      //30000
-		"box1" : [23, 23, 23],      //30000
-		"box2" : [23, 23, 23],      //30000
-		"box3" : [23, 23, 23],      //30000
-		"box4" : [23, 22],          //15000
-		"box5" : [23],              //10000
-		"box6" : [22, 21],          //6000
-		"box7" : [21, 21, 21, 20]   //3500
+		"box0" : [26, 26, 26],      //30000
+		"box1" : [26, 26, 26],      //30000
+		"box2" : [26, 26, 26],      //30000
+		"box3" : [26, 26, 26],      //30000
+		"box4" : [26, 25],          //15000
+		"box5" : [26],              //10000
+		"box6" : [25, 24],          //6000
+		"box7" : [24, 24, 24, 23]   //3500
 	}
 
 var box_value = {
