@@ -61,6 +61,11 @@ class beanlotdb(sqldb):
 		cursor = self.conn.execute(sql)
 		return cursor
 
+	def get_record_filter(self, boxid, numrec = 1000):
+		sql = "SELECT * FROM %s WHERE BoxVal = %d ORDER BY ID desc limit %d" % (self.tablname, boxid, numrec)
+		cursor = self.conn.execute(sql)
+		return cursor
+
 	def save_record(self, data):
 		sql = "INSERT INTO %s(BoxVal, BoxDes, BoxTime, BoxCode, SpecialBox, BoxRound) VALUES(%d, '%s', '%s', '%s', %d, %d)" % (self.tablname, int(data["BoxVal"]), data["BoxDes"], data["BoxTime"], data["BoxCode"], int(data["SpecialBox"]), int(data["BoxRound"]))
 		self.conn.execute(sql)

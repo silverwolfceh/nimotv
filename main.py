@@ -35,6 +35,17 @@ def get_all_beanlot():
 	data["data"] = records;
 	return json.dumps(data)
 
+@app.route("/beanboxfilter", methods=["GET"])
+def get_all_beanbox_filter():
+	boxid = request.args.get("boxid")
+	db = beanlotdb()
+	curs = db.get_record_filter(int(boxid), 2900)
+	records = curs.fetchall()
+	data = {}
+	data["data"] = records;
+	return json.dumps(data)
+	
+
 def send_result_to_client(stype, rs):
 	sio.emit(stype, rs, broadcast=True)
 	#pass
