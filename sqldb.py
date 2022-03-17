@@ -1,4 +1,6 @@
 import sqlite3
+import json
+from datetime import date
 
 def dict_factory(cursor, row):
     d = {}
@@ -66,6 +68,12 @@ class beanlotdb(sqldb):
 		cursor = self.conn.execute(sql)
 		return cursor
 
+	def get_record_from_date(self, day):
+		
+		sql = "SELECT * FROM %s WHERE BoxTime > '%s'" % (self.tablname, str(day))
+		cursor = self.conn.execute(sql)
+		return cursor
+
 	def save_record(self, data):
 		sql = "INSERT INTO %s(BoxVal, BoxDes, BoxTime, BoxCode, SpecialBox, BoxRound) VALUES(%d, '%s', '%s', '%s', %d, %d)" % (self.tablname, int(data["BoxVal"]), data["BoxDes"], data["BoxTime"], data["BoxCode"], int(data["SpecialBox"]), int(data["BoxRound"]))
 		self.conn.execute(sql)
@@ -80,3 +88,12 @@ class beanlotdb(sqldb):
 		
 
 
+if __name__ == '__main__':
+	db = beanlotdb()
+	d0 = date.today()
+	print(str(d0))
+	curs = db.get_record_from_date(str(d0))
+	records = curs.fetchall()
+	data = {}
+	data["data"] = records;
+	print(json.dumps(data))

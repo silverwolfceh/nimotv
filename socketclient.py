@@ -132,8 +132,12 @@ def send_beancurrentround():
 def process_bean_lottery(dv, pck_type, cb):
 	global CUR_ROUND
 	if pck_type == DATA_BEAN_ROUND:
+		roundnum = 0
 		data_row = str(dv.get_row(5))
-		roundnum = int(data_row[19:22], 16)
+		if data_row[0:4] == "0038":
+			roundnum = int(data_row[19:22], 16)
+		else:
+			roundnum = int(data_row[18:20], 16)
 		if CUR_ROUND == -1 and roundnum > 0:
 			CUR_ROUND = roundnum
 			#time.sleep(3)

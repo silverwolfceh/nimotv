@@ -1,4 +1,5 @@
 import codecs
+import json
 from datetime import date
 
 def create_dataarray(data):
@@ -32,6 +33,43 @@ def create_onUserHeartBeat():
 
 def test_util():
 	create_getGoldBeanLotteryResult(1)
+
+def create_stats_data(data):
+	stats = {
+		"box0" : 0,
+		"box1" : 0,
+		"box2" : 0,
+		"box3" : 0,
+		"box4" : 0,
+		"box5" : 0,
+		"box6" : 0,
+		"box7" : 0,
+		"small" : 0,
+		"big"  : 0,
+		"total": 0
+	}
+	
+	for d in data:
+		if d["BoxVal"] >= 0 and d["BoxVal"] <=7:
+			stats["box%d" % d["BoxVal"]] = stats["box%d" % d["BoxVal"]] + 1
+		elif d["BoxVal"] == 8:
+			stats["small"] = stats["small"] + 1
+			stats["box0"] = stats["box0"] + 1
+			stats["box1"] = stats["box1"] + 1
+			stats["box2"] = stats["box2"] + 1
+			stats["box3"] = stats["box3"] + 1
+		elif d["BoxVal"] == 8:
+			stats["big"] = stats["big"] + 1
+			stats["box4"] = stats["box4"] + 1
+			stats["box5"] = stats["box5"] + 1
+			stats["box6"] = stats["box6"] + 1
+			stats["box7"] = stats["box7"] + 1
+		else:
+			pass
+	stats["total"] = len(data)
+	data = {}
+	data["stats"] = stats
+	return json.dumps(data["stats"])
 
 if __name__ == '__main__':
 	test_util()
