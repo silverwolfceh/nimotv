@@ -51,6 +51,7 @@
 
 				td = document.createElement("td");
 				td.innerHTML = data.SpecialBox;
+				td.style.display = "None";
 				tr.appendChild(td);
 
 				return tr;
@@ -70,12 +71,21 @@
 			function initialize_realtime_data() {
 
 			}
+			function convertTZ(date, tzString) {
+				return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+			}
+
+			function get_client_time() {
+				var date = new Date();
+				var hcmdtime = convertTZ(date, "Asia/Ho_Chi_Minh");
+				document.getElementById("clienttime").innerHTML = hcmdtime;
+				setTimeout(get_client_time, 1000);
+			}
 		</script>
 	</head>
 	
 	<body>
-		<p>Current Jackpot value: <i id="smallrt">0</i></p>
-		<p>Client time: <i id="clienttime"></i></p>
+		<p>Current time in VN: <i id="clienttime"></i></p>
 		<table id="jackpot" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
@@ -84,7 +94,7 @@
                 <th>Box Description</th>
                 <th>Box Time</th>
 				<th style="display:none">Box Code</th>
-                <th>Special Type</th>
+                <th style="display:none">Special Type</th>
             </tr>
         </thead>
         <tbody id="content">
@@ -95,6 +105,7 @@
 		$(document).ready(function() {
 			load_data_1st_time();
 			initialize_realtime_data();
+			get_client_time();
 		});
 	</script>
 	</body>
